@@ -13,6 +13,7 @@ def main():
 
     # Создаем экземпляр Assembler
     assembler = Assembler()
+    
 
     # Генерируем ассемблерный код для загрузки значений в регистры и их суммирования
     for i, value in enumerate(values):
@@ -27,7 +28,7 @@ def main():
     # Получаем сгенерированный ассемблерный код
     program = assembler.get_program()
 
-    # Сохраняем сгенерированный код в файл
+    # Сохраняем сгенерированный код в текстовом файле в двоичном формате
     assembler.save_to_file("generated_program.txt")
     print("Сгенерированный код сохранен в 'generated_program.txt'.")
 

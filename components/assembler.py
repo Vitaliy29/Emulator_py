@@ -1,41 +1,27 @@
 class Assembler:
     def __init__(self):
-        self.program = []
+        self.instructions = []
 
     def load(self, reg, value):
-        """Загружает значение в указанный регистр."""
-        self.program.append((2 << 12) | (reg << 8) | value)  # 2 - код операции LOAD
+        # Пример инструкции в двоичном формате
+        instruction = (0b0001 << 12) | (reg << 8) | (value & 0xFF)  # LOAD
+        self.instructions.append(instruction)
 
     def add(self, reg1, reg2):
-        """Складывает значения из двух регистров и сохраняет результат в первом регистре."""
-        self.program.append((1 << 12) | (reg1 << 8) | reg2)  # 1 - код операции ADD
-
-    def multiply(self, reg1, reg2):
-        """Умножает значения из двух регистров и сохраняет результат в первом регистре."""
-        self.program.append((3 << 12) | (reg1 << 8) | reg2)  # 3 - код операции MULTIPLY
-
-    def max(self, reg1, reg2):
-        """Находит максимум между значениями в двух регистрах и сохраняет результат в первом регистре."""
-        self.program.append((4 << 12) | (reg1 << 8) | reg2)  # 4 - код операции MAX
-
-    def min(self, reg1, reg2):
-        """Находит минимум между значениями в двух регистрах и сохраняет результат в первом регистре."""
-        self.program.append((5 << 12) | (reg1 << 8) | reg2)  # 5 - код операции MIN
-
-    def store(self, reg, address):
-        """Сохраняет значение из указанного регистра в указанной ячейке памяти."""
-        self.program.append((3 << 12) | (reg << 8) | address)  # 3 - код операции STORE
+        # Пример инструкции сложения в двоичном формате
+        instruction = (0b0010 << 12) | (reg1 << 8) | (reg2 & 0xFF)  # ADD
+        self.instructions.append(instruction)
 
     def finish(self):
-        """Завершает выполнение программы."""
-        self.program.append(0)  # Код завершения
+        # Завершение программы (можно добавить инструкцию завершения)
+        self.instructions.append(0b1111)  # HALT
 
     def get_program(self):
-        """Возвращает сгенерированный ассемблерный код."""
-        return self.program
+        return self.instructions
 
     def save_to_file(self, filename):
-        """Сохраняет сгенерированный ассемблерный код в текстовый файл."""
         with open(filename, 'w') as f:
-            for instruction in self.program:
-                f.write(f"{instruction}\n")  # Записываем каждую инструкцию в файл
+            for instruction in self.instructions:
+                # Преобразуем каждую инструкцию в двоичный формат и записываем в файл
+                binary_instruction = format(instruction, '016b')  # 16-битное двоичное представление
+                f.write(binary_instruction + '\n')  # Записываем каждую инструкцию на новой строке
